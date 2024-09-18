@@ -47,7 +47,7 @@ def capacity(dir):
     # The dir input is already sanitized by the Directory class.
     df_cmd = "df -k '{0}' | tail -n 1 ".format(dir)
     output = subprocess.check_output(df_cmd, shell=True)
-    split_output = re.split(r'\s+', output)
+    split_output = re.split(r'\s+', output.decode('utf-8'))
     capacity = split_output[3]
     return int(capacity)
 
@@ -91,7 +91,7 @@ def main():
 
     include, exclude = partition(dest_capacity, source_sizes)
 
-    for _ in xrange(args.iterations):
+    for _ in range(args.iterations):
         include, exclude = improve(dest_capacity, include, exclude)
 
     if not args.quiet:
